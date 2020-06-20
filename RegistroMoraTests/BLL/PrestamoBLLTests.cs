@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RegistroMora.BLL;
+using RegistroMora.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,57 +13,54 @@ namespace RegistroMora.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = true;
+            bool paso = false;
+            Prestamos prestamos = new Prestamos();
 
-            Assert.IsTrue(paso);
+            prestamos.PrestamoId = 0;
+            prestamos.Fecha = DateTime.Now;
+            prestamos.PersonaId = 1;
+            prestamos.Concepto = "Compra de TV";
+            prestamos.Monto = 2000;
+            prestamos.Balance = 0;
+
+            paso = PrestamoBLL.Guardar(prestamos);
+
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void EliminarTest()
         {
-            bool paso = true;
+            bool paso = false;
 
-            Assert.IsTrue(paso);
+            paso = PrestamoBLL.Eliminar(1);
+
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void BuscarTest()
         {
-            bool paso = true;
+            Prestamos prestamos = new Prestamos();
+            bool paso = false;
 
-            Assert.IsTrue(paso);
+            prestamos = PrestamoBLL.Buscar(1);
+
+            if (prestamos != null)
+                paso = true;
+
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void GetListTest()
         {
-            bool paso = true;
+            var Lista = new List<Prestamos>();
+            Lista = PrestamoBLL.GetList(p => true);
 
-            Assert.IsTrue(paso);
+            Assert.AreEqual(Lista, Lista);
         }
 
-        [TestMethod()]
-        public void GuardarBalanceTest()
-        {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
-        }
-
-        [TestMethod()]
-        public void ModificarBalanceTest()
-        {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
-        }
-
-        [TestMethod()]
-        public void EliminarBalanceTest()
-        {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
-        }
+       
     }
 }

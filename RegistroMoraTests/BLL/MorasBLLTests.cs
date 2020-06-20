@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RegistroMora.BLL;
+using RegistroMora.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,51 +10,52 @@ namespace RegistroMora.BLL.Tests
     [TestClass()]
     public class MorasBLLTests
     {
-        [TestMethod()]
-        public void ExisteTest()
-        {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
-        }
+       
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = true;
+            bool paso = false;
 
-            Assert.IsTrue(true);
+            Mora mora = new Mora();
+            mora.MoraId = 0;
+            mora.Fecha = DateTime.Now;
+            mora.Total = 10;
+            mora.MoraDetalle.Add(new MoraDetalle
+            {
+                MoraDetalleId = 0,
+                MoraId = mora.MoraId,
+                PrestamoId = 1,
+                Monto = 10
+            });
+
+            Assert.IsTrue(MorasBLL.Guardar(mora));
+
         }
 
         [TestMethod()]
         public void EliminarTest()
         {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
+            bool paso;
+            paso = MorasBLL.Eliminar(1);
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void BuscarTest()
         {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
+            Mora mora;
+            mora = MorasBLL.Buscar(1);
+            Assert.IsNotNull(mora);
         }
 
         [TestMethod()]
         public void GetMorasTest()
         {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
+            var lista = new List<Mora>();
+            lista = MorasBLL.GetList(p => true);
+            Assert.IsNotNull(lista);
         }
 
-        [TestMethod()]
-        public void GetListTest()
-        {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
-        }
+ 
     }
 }

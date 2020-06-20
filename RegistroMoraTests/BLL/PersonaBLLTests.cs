@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using RegistroMora.Models;
 
 namespace RegistroMora.BLL.Tests
 {
@@ -12,33 +13,44 @@ namespace RegistroMora.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = true;
+            bool paso;
+            Personas personas = new Personas();
+            personas.Id = 0;
+            personas.Nombre = "Jose";
+            personas.Telefono = " 8295669999 ";
+            personas.Cedula = " 0565555559 ";
+            personas.Direccion = "Duarte sfm";
+            personas.FechaNacimiento = DateTime.Now;
+            personas.Balance = 0;
+            paso = PersonaBLL.Guardar(personas);
 
-            Assert.IsTrue(paso);
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void EliminarTest()
         {
-            bool paso = true;
-
-            Assert.IsTrue(paso);
+            bool paso;
+            paso = PersonaBLL.Eliminar(2);
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void BuscarTest()
         {
-            bool paso = true;
+            Personas personas;
+            personas = PersonaBLL.Buscar(2);
 
-            Assert.IsTrue(paso);
+            Assert.AreEqual(personas, personas);
         }
 
         [TestMethod()]
         public void GetListTest()
         {
-            bool paso = true;
+            var lista = new List<Personas>();
+            lista = PersonaBLL.GetList(p => true);
 
-            Assert.IsTrue(paso);
+            Assert.AreEqual(lista, lista);
         }
     }
 }
