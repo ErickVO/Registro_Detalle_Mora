@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistroMora", "RegistroMora\RegistroMora.csproj", "{C71751BA-4B1C-488A-ADD6-15DB2F65CA75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegistroMora", "RegistroMora\RegistroMora.csproj", "{C71751BA-4B1C-488A-ADD6-15DB2F65CA75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistroMoraTests", "RegistroMoraTests\RegistroMoraTests.csproj", "{992C82E7-27E2-4090-8420-C95264EF4015}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C71751BA-4B1C-488A-ADD6-15DB2F65CA75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C71751BA-4B1C-488A-ADD6-15DB2F65CA75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C71751BA-4B1C-488A-ADD6-15DB2F65CA75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{992C82E7-27E2-4090-8420-C95264EF4015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{992C82E7-27E2-4090-8420-C95264EF4015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{992C82E7-27E2-4090-8420-C95264EF4015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{992C82E7-27E2-4090-8420-C95264EF4015}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

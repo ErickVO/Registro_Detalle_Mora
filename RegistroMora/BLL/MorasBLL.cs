@@ -11,27 +11,15 @@ namespace RegistroMora.BLL
 {
     public class MorasBLL
     {
-        public static bool Existe(int id)//determina si existe una Mora
+        public static bool Guardar(Mora mora)
         {
-            Contexto db = new Contexto();
-            bool encontrado = false;
-
-            try
-            {
-                encontrado = db.Moras.Any(m => m.MoraId == id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return encontrado;
+            if (!Existe(mora.MoraId))
+                return Insertar(mora);
+            else
+                return Modificar(mora);
         }
 
-        public static bool Insertar(Mora mora)
+        private static bool Insertar(Mora mora)
         {
             bool paso = false;
             Contexto db = new Contexto();
@@ -52,7 +40,7 @@ namespace RegistroMora.BLL
             return paso;
         }
 
-        public static bool Modificar(Mora mora)
+        private static bool Modificar(Mora mora)
         {
             bool paso = false;
             Contexto db = new Contexto();
@@ -79,13 +67,6 @@ namespace RegistroMora.BLL
             return paso;
         }
 
-        public static bool Guardar(Mora mora)
-        {
-            if (!Existe(mora.MoraId))
-                return Insertar(mora);
-            else
-                return Modificar(mora);
-        }
 
         public static bool Eliminar(int id)
         {
@@ -135,6 +116,26 @@ namespace RegistroMora.BLL
             }
 
             return moras;
+        }
+
+        public static bool Existe(int id)//determina si existe una Mora
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Moras.Any(m => m.MoraId == id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static List<Mora> GetMoras()
