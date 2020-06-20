@@ -1,0 +1,248 @@
+﻿@page "/RMora"
+@page "/RMora/{MoraId:int}"
+
+@using Models;
+@using BLL;
+
+@inject IToastService toast
+
+<EditForm Model="Mora" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+   
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro de Moras</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+          
+                <div class=" form-row align-items-center">
+
+
+                <div class="col">
+                    <div class="form-group">
+                        <label>Mora Id:</label>
+                        <div class="input-group">
+                            <InputNumber @bind-Value="Mora.MoraId" class="form-control col-4" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text oi oi-magnifying-glass" @onclick="Buscar"> Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <InputDate @bind-Value="Mora.Fecha" class="form-control" />
+                    <ValidationMessage For="@(() => Mora.Fecha)" />
+                </div>
+
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Tipo de Prestamo:</label>
+                            <select class="form-control" @bind="SeleccionPrestamo">
+                                <option value="" disabled selected>Prestamos Disponibles</option>
+                                @foreach (var item in ListaPrestamo)
+                                {
+                                    <option value="@item.PrestamoId">@item.Concepto</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Monto:</label>
+                    <div class="input-group">
+                        <InputNumber @bind-Value="MontoDetalle" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-info oi oi-plus" @onclick="Agregar"> Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+               <div class="table-responsive text-nowrap" style="position: relative; height:180px; overflow: auto; display: block;">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Id</th>
+                                <th>MoraId</th>
+                                <th>PrestamoId</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                 
+
+                        <tbody class="bg-white">
+                            @foreach (var item in Mora.MoraDetalle)
+                            {
+                                <tr>
+                                    <td>@item.MoraDetalleId</td>
+                                    <td>@item.MoraId</td>
+                                    <td>@item.PrestamoId</td>
+                                    <td>@item.Monto</td>
+                                    <td><button type="button" class="btn btn-lg btn-danger oi oi-minus" @onclick="(() => Remover(item))"> Remover</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @*Total*@
+                <div class="form-group">
+                    <label>TOTAL:</label>
+                    <InputNumber @bind-Value="Mora.Total" class="form-control" readonly="true" />
+                    <ValidationMessage For="@(() => Mora.Total)" />
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-lg btn-secondary oi oi-file" @onclick="Nuevo"> Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-success oi oi-cloud-upload"> Guardar</button>
+                <button type="button" class="btn btn-lg btn-danger oi oi-trash" @onclick="Eliminar"> Eliminar</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code
+{
+    [Parameter]
+    public int MoraId { get; set; }
+    private decimal MontoDetalle { get; set; }
+    private int SeleccionPrestamo { get; set; }
+
+    private Mora Mora = new Mora();
+    private List<Prestamos> ListaPrestamo = new List<Prestamos>();
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+
+        if (MoraId > 0)
+        {
+            var Mora = MorasBLL.Buscar(MoraId);
+            if (Mora != null)
+                this.Mora = Mora;
+            else
+                toast.ShowWarning("No encontrado.");
+        }
+
+        ListaPrestamo = PrestamoBLL.GetList(p => true);
+    }
+
+    private void Nuevo()
+    {
+        Mora = new Mora();
+        SeleccionPrestamo = 0;
+        MontoDetalle = 0;
+    }
+
+    private void Buscar()
+    {
+        if (Mora.MoraId > 0)
+        {
+            var encontrado = MorasBLL.Buscar(Mora.MoraId);
+
+            if (encontrado != null)
+                Mora = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
+
+    private void CalcularTotal()
+    {
+        decimal total = 0;
+
+        foreach (var item in Mora.MoraDetalle)
+        {
+            total += item.Monto;
+        }
+        Mora.Total = total;
+    }
+
+    private void Agregar()
+    {
+        if (SeleccionPrestamo == 0)
+        {
+            toast.ShowWarning("Tiene que seleccionar un prestamoId");
+            return;
+        }
+
+        if (MontoDetalle <= 0)
+        {
+            toast.ShowWarning("El Monto debe ser mayor a 0.");
+            return;
+        }
+        else
+        {
+            this.Mora.MoraDetalle.Add(new MoraDetalle
+            {
+                MoraId = Mora.MoraId,
+                PrestamoId = SeleccionPrestamo,
+                Monto = MontoDetalle
+            });
+
+            SeleccionPrestamo = 0;
+            MontoDetalle = 0;
+        }
+        CalcularTotal();
+    }
+
+    private void Remover(MoraDetalle Detalle)
+    {
+        try
+        {
+            Mora.MoraDetalle.Remove(Detalle);
+            CalcularTotal();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    private void Guardar()
+    {
+        bool guardo = false;
+
+        if (Mora.MoraDetalle.Count == 0)
+        {
+            toast.ShowWarning("Tienes que agregar al menos un elemento a la lista");
+            return;
+        }
+        else
+        {
+            guardo = MorasBLL.Guardar(Mora);
+
+            if (guardo)
+            {
+                Nuevo();
+                toast.ShowSuccess("Guardo Correctamente");
+            }
+             else
+                 toast.ShowError("No fue posible guardar");
+        }
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = MorasBLL.Eliminar(Mora.MoraId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+}

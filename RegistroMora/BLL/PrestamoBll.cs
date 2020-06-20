@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RegistroPrestamo.DAL;
-using RegistroPrestamo.Models;
+using RegistroMora.DAL;
+using RegistroMora.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

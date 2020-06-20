@@ -15,7 +15,7 @@ namespace RegistroMora.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = c:\Users\LENOVO\source\repos\PrestamosDb\PrestamosDB.db");
+            optionsBuilder.UseSqlite(@"Data Source = Data\MoraDB.db");
         }
     }
 }

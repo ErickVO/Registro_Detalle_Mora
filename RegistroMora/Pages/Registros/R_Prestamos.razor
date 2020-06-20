@@ -23,7 +23,7 @@
                             <div class="input-group">
                                 <InputNumber @bind-Value="Prestamo.PrestamoId" class="form-control col-4" />
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    <button type="button" class="btn btn-primary input-group-text oi oi-magnifying-glass" @onclick="Buscar">Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -70,9 +70,9 @@
         </div>
         <div class="card-footer">
             <div class="form-group text-center" display: inline-block>
-                <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
-                <button type="submit" class="btn btn-lg btn-success">Guardar</button>
-                <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                <button type="button" class="btn btn-lg btn-primary oi oi-file" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-success oi oi-cloud-upload">Guardar</button>
+                <button type="button" class="btn btn-lg btn-danger oi oi-trash" @onclick="Eliminar">Eliminar</button>
             </div>
         </div>
     </div>
