@@ -68,8 +68,6 @@
                     <table class="table table-striped">
                         <thead class="thead-light">
                             <tr>
-                                <th>Id</th>
-                                <th>MoraId</th>
                                 <th>PrestamoId</th>
                                 <th>Monto</th>
                             </tr>
@@ -80,8 +78,6 @@
                             @foreach (var item in Mora.MoraDetalle)
                             {
                                 <tr>
-                                    <td>@item.MoraDetalleId</td>
-                                    <td>@item.MoraId</td>
                                     <td>@item.PrestamoId</td>
                                     <td>@item.Monto</td>
                                     <td><button type="button" class="btn btn-lg btn-danger oi oi-minus" @onclick="(() => Remover(item))"> Remover</button></td>
